@@ -6,10 +6,13 @@ import Click2 from './component/Click2';
 import Producto from './component/Producto';
 import Carrito from './component/Carrito'
 import './estilo.css';
+import { TemaProvider,useTema } from './context/TemaContext';
+import ControlesTema from './component/ControlesTema'; 
 
-function App() {
+const AppContent = () => {
   // estado de carrito
   const [carrito, setCarrito] = useState([]);
+  const {colorFondo, tamañoLetra, colores} = useTema();
   //productos disponibles
   const productos = [
     {id:1, nombre: 'Laptop Gaming', precio:9500, imagen: '💻'},
@@ -49,14 +52,24 @@ function App() {
         )
     );
   };
+  const appStyle ={
+    background: colores[colorFondo] || colores.gradient,
+    fontSize: tamañoLetra === 'medium' ? '16px':
+              tamañoLetra === 'pequeño' ? '12px':
+              tamañoLetra === 'grande' ? '20px': '25px',
+    minHeight: '100vh', 
+    transition: 'all 0.4s ease'
+  };
+
   return (
-    <div className="App">
+    <div className="App" style={appStyle}>
        {/* <Formulario/>
         <br></br>
         <Click2 titulo="Click de preferencia en Tik Tok"></Click2>
         <Click2 titulo="Click para calificarlo"></Click2>
         <Click2 titulo="Click de calidad de opnion"></Click2>
         */}
+        <ControlesTema/>
         <header className="app-header">
           <h1>Tienda Online</h1>
           <p>Elija su producto</p>
@@ -84,6 +97,14 @@ function App() {
             </section>
         </div>
     </div>
+  );
+};
+
+function App(){
+  return (
+    <TemaProvider>
+      <AppContent />
+    </TemaProvider>
   );
 }
 

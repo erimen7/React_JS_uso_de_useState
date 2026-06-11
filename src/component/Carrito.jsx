@@ -1,10 +1,19 @@
 import React, {useState} from 'react'
+import { useTema } from '../context/TemaContext';
 
 const Carrito = ({items,onEliminar,onActualizarCantidad}) => {
     const [mostrarCarrito, setMostrarCarrito]=useState(true);
+     const {tamañoLetra} = useTema();
     const calcularTotal=()=> {
         return items.reduce((total,item)=> total+(item.precio*item.cantidad),0);
     };
+    const carritoStyle ={
+    fontSize: tamañoLetra === 'medium' ? '16px':
+              tamañoLetra === 'pequeño' ? '12px':
+              tamañoLetra === 'grande' ? '20px': '25px'
+
+    };
+
 if(items.length===0){
     return(
     <div className="carrito">
@@ -21,7 +30,7 @@ if(items.length===0){
 }
 
   return (
-    <div className="carrito">
+    <div className="carrito" style={carritoStyle}>
         <div className="carrito-header">
             <h2> Mi Carrito ({items.length})</h2>
         </div>
